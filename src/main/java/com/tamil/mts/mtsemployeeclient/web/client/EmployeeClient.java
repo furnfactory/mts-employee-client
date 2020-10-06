@@ -5,6 +5,7 @@
  */
 package com.tamil.mts.mtsemployeeclient.web.client;
 
+import java.net.URI;
 import java.util.UUID;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -58,5 +59,28 @@ public class EmployeeClient {
 	public EmployeeDto getEmployeeById(UUID empId) {
 		log.info("Host URL of Employee Service : " + apihost);
 		return restTemplate.getForObject(apihost + EMPLOYEE_API_PATH + empId.toString(), EmployeeDto.class);
+	}
+
+	/**
+	 * @param employeeDto
+	 * @return URI the URI of saved Employee
+	 */
+	public URI createEmployee(EmployeeDto employeeDto) {
+		return restTemplate.postForLocation(apihost + EMPLOYEE_API_PATH, employeeDto);
+	}
+
+	/**
+	 * @param empId
+	 * @param employeeDto
+	 */
+	public void updateEmployee(UUID empId, EmployeeDto employeeDto) {
+		restTemplate.put(apihost + EMPLOYEE_API_PATH + empId.toString(), employeeDto);
+	}
+
+	/**
+	 * @param empId
+	 */
+	public void deleteEmployee(UUID empId) {
+		restTemplate.delete(apihost + EMPLOYEE_API_PATH + empId.toString());
 	}
 }
